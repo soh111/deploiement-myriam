@@ -108,7 +108,7 @@ st.markdown("""
 # ─── Chargement modèle + données ─────────────────────────────
 @st.cache_resource
 def charger_modele():
-    return joblib.load("model/modele_kmeans.pkl"), joblib.load("model/normaliseur.pkl")
+    return joblib.load("modele_kmeans.pkl"), joblib.load("normaliseur.pkl")
 
 @st.cache_data
 def charger_donnees():
