@@ -7,23 +7,23 @@ import matplotlib.pyplot as plt
 # ─── Configuration de la page ───────────────────────────────
 st.set_page_config(
     page_title="Segmentation Clients",
-    page_icon="🌿",
+    page_icon="🌊",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# ─── CSS Personnalisé (thème vert émeraude) ──────────────────
+# ─── CSS Personnalisé (thème bleu océan) ─────────────────────
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap');
 
     .stApp {
-        background: linear-gradient(135deg, #ecfdf5 0%, #f0fdfa 100%);
-        color: #064e3b;
-        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(135deg, #eff6ff 0%, #ecfeff 100%);
+        color: #0c4a6e;
+        font-family: 'Nunito', sans-serif;
     }
     [data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #047857 0%, #059669 100%);
+        background: linear-gradient(180deg, #0369a1 0%, #0891b2 100%);
         border: none;
     }
     [data-testid="stSidebar"] * {
@@ -32,7 +32,7 @@ st.markdown("""
     .main-title {
         font-size: 2.6rem;
         font-weight: 800;
-        background: linear-gradient(90deg, #059669, #10b981);
+        background: linear-gradient(90deg, #0891b2, #06b6d4);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         text-align: center;
@@ -41,21 +41,21 @@ st.markdown("""
     }
     .stat-card {
         background: white;
-        border: 1px solid #a7f3d0;
+        border: 1px solid #bae6fd;
         border-radius: 16px;
         padding: 1.6rem;
         text-align: center;
-        box-shadow: 0 4px 20px rgba(5, 150, 105, 0.08);
+        box-shadow: 0 4px 20px rgba(8, 145, 178, 0.08);
         transition: transform 0.25s ease, box-shadow 0.25s ease;
     }
     .stat-card:hover {
         transform: translateY(-6px);
-        box-shadow: 0 12px 30px rgba(5, 150, 105, 0.18);
+        box-shadow: 0 12px 30px rgba(8, 145, 178, 0.18);
     }
     .stat-number {
         font-size: 2.2rem;
         font-weight: 800;
-        color: #059669;
+        color: #0891b2;
     }
     .stat-label {
         color: #6b7280;
@@ -63,7 +63,7 @@ st.markdown("""
         margin-top: 0.3rem;
     }
     .segment-box {
-        background: linear-gradient(135deg, #059669, #10b981);
+        background: linear-gradient(135deg, #0891b2, #06b6d4);
         border: none;
         border-radius: 16px;
         padding: 2rem;
@@ -71,7 +71,7 @@ st.markdown("""
         font-size: 1.7rem;
         font-weight: 800;
         color: white !important;
-        box-shadow: 0 8px 25px rgba(5, 150, 105, 0.35);
+        box-shadow: 0 8px 25px rgba(8, 145, 178, 0.35);
         animation: popIn 0.4s ease;
     }
     @keyframes popIn {
@@ -79,7 +79,7 @@ st.markdown("""
         to   { opacity: 1; transform: scale(1); }
     }
     .stButton > button {
-        background: linear-gradient(135deg, #059669, #10b981);
+        background: linear-gradient(135deg, #0891b2, #06b6d4);
         color: white;
         border: none;
         border-radius: 12px;
@@ -87,18 +87,18 @@ st.markdown("""
         font-weight: 700;
         font-size: 1rem;
         width: 100%;
-        box-shadow: 0 4px 15px rgba(5, 150, 105, 0.3);
+        box-shadow: 0 4px 15px rgba(8, 145, 178, 0.3);
         transition: all 0.25s ease;
     }
     .stButton > button:hover {
         transform: translateY(-2px);
-        box-shadow: 0 8px 22px rgba(5, 150, 105, 0.45);
+        box-shadow: 0 8px 22px rgba(8, 145, 178, 0.45);
     }
     [data-testid="stNumberInput"] input {
         border-radius: 10px;
-        border: 1.5px solid #a7f3d0;
+        border: 1.5px solid #bae6fd;
     }
-    h3 { color: #065f46 !important; font-weight: 700 !important; }
+    h3 { color: #075985 !important; font-weight: 700 !important; }
     #MainMenu { visibility: hidden; }
     footer { visibility: hidden; }
 </style>
@@ -107,8 +107,8 @@ st.markdown("""
 # ─── Chargement du modèle et des données ─────────────────────
 @st.cache_resource
 def charger_modele():
-    modele = joblib.load("modele_kmeans.pkl")
-    normaliseur = joblib.load("normaliseur.pkl")
+    modele = joblib.load("model/modele_kmeans.pkl")
+    normaliseur = joblib.load("model/normaliseur.pkl")
     return modele, normaliseur
 
 @st.cache_data
@@ -120,15 +120,15 @@ rfm = charger_donnees()
 
 # ─── Noms des segments ───────────────────────────────────────
 noms_segments = {
-    0: "🌿 Clients Réguliers",
-    1: "🍂 Clients à Risque",
-    2: "👑 Clients VIP",
-    3: "⭐ Clients Premium"
+    0: " Clients Réguliers",
+    1: " Clients à Risque",
+    2: " Clients VIP",
+    3: " Clients Premium"
 }
 
 # ─── Barre latérale ──────────────────────────────────────────
 with st.sidebar:
-    st.markdown("## 🌿 Segmentation Clients")
+    st.markdown("## 🌊 Segmentation Clients")
     st.markdown("---")
     page = st.radio(
         "Navigation",
@@ -142,7 +142,7 @@ with st.sidebar:
 
 # ─── PAGE ACCUEIL ────────────────────────────────────────────
 if page == "🏠 Accueil":
-    st.markdown('<p class="main-title">🌿 Segmentation de la Clientèle</p>', unsafe_allow_html=True)
+    st.markdown('<p class="main-title">🌊 Segmentation de la Clientèle</p>', unsafe_allow_html=True)
     st.markdown("---")
 
     col1, col2 = st.columns(2)
@@ -159,14 +159,7 @@ if page == "🏠 Accueil":
         - **F** (Fréquence) : nombre de commandes
         - **M** (Montant) : total dépensé
         """)
-    with col2:
-        st.markdown("### 🤖 Le modèle")
-        st.markdown("""
-        - **Algorithme** : K-Means
-        - **Segments** : 4
-        - **Validation** : coude + silhouette
-        - **Clients** : 4 338
-        """)
+    
         st.markdown("### 📋 Mode d'emploi")
         st.markdown("""
         1. Ouvrez **🔮 Prédiction**
@@ -175,11 +168,11 @@ if page == "🏠 Accueil":
         """)
 
     st.markdown("---")
-    st.markdown("### 🗂️ Les 4 segments")
+    st.markdown("###  Les 4 segments")
     cols = st.columns(4)
     infos = [
-        ("🌿", "Réguliers", "Clients actifs courants"),
-        ("🍂", "À Risque", "Clients qui s'éloignent"),
+        ("🌊", "Réguliers", "Clients actifs courants"),
+        ("🌧️", "À Risque", "Clients qui s'éloignent"),
         ("👑", "VIP", "Grands comptes précieux"),
         ("⭐", "Premium", "Meilleurs clients fidèles")
     ]
@@ -223,7 +216,7 @@ if page == "🔮 Prédiction":
             }
             st.info(descriptions[seg])
         else:
-            st.info("👈 Renseignez les valeurs puis cliquez sur le bouton")
+            st.info(" Renseignez les valeurs puis cliquez sur le bouton")
 
 # ─── PAGE TABLEAU DE BORD ────────────────────────────────────
 if page == "📊 Tableau de bord":
@@ -233,7 +226,7 @@ if page == "📊 Tableau de bord":
     effectifs = rfm["Segment"].value_counts().sort_index()
     profils = rfm.groupby("Segment")[["Recency", "Frequency", "Monetary"]].mean()
 
-    st.markdown("### 🗂️ Répartition des clients")
+    st.markdown("### Répartition des clients")
     cols = st.columns(4)
     for i in range(4):
         with cols[i]:
@@ -249,9 +242,9 @@ if page == "📊 Tableau de bord":
 
     col1, col2 = st.columns(2)
     with col1:
-        st.markdown("### 🥧 Répartition des segments")
+        st.markdown("###  Répartition des segments")
         fig, ax = plt.subplots(figsize=(5, 5))
-        couleurs = ["#059669", "#dc2626", "#f59e0b", "#0891b2"]
+        couleurs = ["#0891b2", "#ef4444", "#f59e0b", "#6366f1"]
         labels = ["Réguliers", "À Risque", "VIP", "Premium"]
         ax.pie(effectifs, labels=labels, colors=couleurs, autopct="%1.1f%%",
                startangle=90, pctdistance=0.85, labeldistance=1.1)
@@ -263,16 +256,16 @@ if page == "📊 Tableau de bord":
         fig2, ax2 = plt.subplots(figsize=(5, 5))
         x = np.arange(4)
         larg = 0.25
-        ax2.bar(x - larg, profil_mm["Recency"], larg, label="Récence", color="#dc2626")
-        ax2.bar(x, profil_mm["Frequency"], larg, label="Fréquence", color="#059669")
-        ax2.bar(x + larg, profil_mm["Monetary"], larg, label="Montant", color="#0891b2")
+        ax2.bar(x - larg, profil_mm["Recency"], larg, label="Récence", color="#ef4444")
+        ax2.bar(x, profil_mm["Frequency"], larg, label="Fréquence", color="#0891b2")
+        ax2.bar(x + larg, profil_mm["Monetary"], larg, label="Montant", color="#6366f1")
         ax2.set_xticks(x)
         ax2.set_xticklabels(["S0", "S1", "S2", "S3"])
         ax2.legend()
         st.pyplot(fig2)
 
     st.markdown("---")
-    st.markdown("### 📋 Profil détaillé des segments")
+    st.markdown("###  Profil détaillé des segments")
     recap = profils.copy()
     recap["Effectif"] = effectifs
     recap["Segment"] = [noms_segments[i] for i in range(4)]
@@ -293,7 +286,7 @@ if page == "ℹ️ À propos":
         clients d'un site e-commerce selon leur comportement d'achat
         pour orienter les actions marketing.
         """)
-        st.markdown("### 🔬 La démarche")
+        st.markdown("###  La démarche")
         st.markdown("""
         1. Nettoyage des données
         2. Calcul des variables RFM
@@ -302,7 +295,7 @@ if page == "ℹ️ À propos":
         5. Validation par coude et silhouette
         """)
     with col2:
-        st.markdown("### 🛠️ Technologies")
+        st.markdown("###  Technologies")
         st.markdown("""
         - **Python**
         - **Pandas**
